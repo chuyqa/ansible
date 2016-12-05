@@ -1,0 +1,17 @@
+- name: Run all
+  hosts: all
+  remote_user: root
+  roles:
+    - common
+
+- name: Install Ambari-Server
+  hosts: ambari-server
+  remote_user: root
+  roles:
+    - ambari-server
+
+- name: Install KDC
+  hosts: kdc
+  remote_user: root
+  roles:
+   - kdc

@@ -1,0 +1,7 @@
+---
+- name: Add ambari yum repo
+  get_url: 
+    url="http://birepo-build.svl.ibm.com/repos/Ambari/RHEL6/x86_64/2.2.0_IOP-4.2.1.0/build.latest/ambari.repo" 
+    dest=/etc/yum.repos.d/ambari.repo
+
+

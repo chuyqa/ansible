@@ -1,0 +1,8 @@
+---
+
+kerberos_realm: FYRE.IBM.COM
+kerberos_server_kdc_port: 88
+kerberos_server_master_db_pass: temp4now
+kerberos_server_kadmin_pass: temp4now
+kerberos_server_kadmin_user: biadmin
+

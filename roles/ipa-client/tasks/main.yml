@@ -1,0 +1,20 @@
+---
+- name: Install packages
+  yum: name={{ item }} state=installed
+  with_items:
+   - ipa-client
+
+- name: Run ipa-client installation to register with IPA server
+  shell: >
+    ipa-client-install
+    --server={{ ipa_server_fqdn }}
+    --domain={{ ipa_domain }}
+    --realm={{ ipa_realm }}
+    --mkhomedir
+    --principal={{ ipa_server_admin }}
+    --unattended
+    --password={{ ipa_server_adminpw }}
+  ignore_errors: yes
+
+- name: add shitty user
+  shell: useradd -o -u 1010 -G hadoop -g hadoop kafka

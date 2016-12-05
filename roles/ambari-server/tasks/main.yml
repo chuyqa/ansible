@@ -1,0 +1,10 @@
+---
+############################
+## Installing ambari-agent  #
+#############################
+
+- name: Install Ambari Server
+  yum: name=ambari-server state=present
+
+- name: Run Ambari Server Setup
+  command: ambari-server setup -s   
