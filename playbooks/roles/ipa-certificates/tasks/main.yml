@@ -3,17 +3,47 @@
 - name: Create cert dir
   file: path=/etc/security/certificates/ state=directory
 
-- name: Obtain ticket on each host
+- name: Make sure SELINUX is disabled
   shell: >
     setenforce 0
   ignore_errors: yes
 
 - name: Obtain ticket on each host
   shell: >
-    echo {{ ipa_server_adminpw }} | kinit admin 
+    echo {{ ipa_server_adminpw }} | kinit admin
   ignore_errors: yes
 
-- name: Retrieve host certificate
+- name: Generate host certificate
   shell: >
-    ipa-getcert request -v -f /etc/security/certificates/host.crt -k /etc/security/certificates/host.key
+    ipa-getcert request -v \
+    -f /etc/security/certificates/host.crt \
+    -k /etc/security/certificates/host.key
+  ignore_errors: yes
+
+- name: Generate  PKCS12 file from certificate and root cert
+  shell: >
+    openssl pkcs12 -export -in /etc/security/certificates/host.crt \
+    -inkey /etc/security/certificates/host.key \
+    -certfile /etc/ipa/ca.crt \
+    -out /etc/security/certificates/host.p12 \
+    -passout pass:"changeit"
+  ignore_errors: yes
+
+- name: Convert PKCS12 to JKS
+  shell: >
+    /usr/jdk64/jdk1.8.0_112/bin/keytool \
+    -importkeystore \
+    -srckeystore /etc/security/certificates/host.p12 \
+    -srcstoretype PKCS12 \
+    -destkeystore /etc/security/certificates/keystore.jks  \
+    -deststoretype JKS \
+    -srcalias 1 \
+    -destalias host_ssl \
+    -srcstorepass changeit \
+    -deststorepass changeit
+  ignore_errors: yes
+
+- name: Symlink ipa truststore to /etc/security/certificates/truststore.jks
+  shell: >
+    ln -s /etc/pki/java/cacerts /etc/security/certificates/truststore.jks
   ignore_errors: yes
