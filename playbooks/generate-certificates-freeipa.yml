@@ -1,0 +1,5 @@
+- name: IPA Clients
+  hosts: all
+  remote_user: root
+  roles:
+    - ipa-certificates
