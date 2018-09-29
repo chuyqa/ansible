@@ -1,0 +1,19 @@
+---
+
+- name: Create cert dir
+  file: path=/etc/security/certificates/ state=directory
+
+- name: Obtain ticket on each host
+  shell: >
+    setenforce 0
+  ignore_errors: yes
+
+- name: Obtain ticket on each host
+  shell: >
+    echo {{ ipa_server_admin }} | kinit admin 
+  ignore_errors: yes
+
+- name: Retrieve host certificate
+  shell: >
+    ipa-getcert request -v -f /etc/security/certificates/host.crt -k /etc/security/certificates/host.key
+  ignore_errors: yes

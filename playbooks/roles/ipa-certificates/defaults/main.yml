@@ -1,0 +1,8 @@
+---
+
+ipa_server_fqdn: 
+ipa_server_admin: admin
+ipa_server_adminpw: 
+ipa_realm: 
+ipa_domain: 
+
