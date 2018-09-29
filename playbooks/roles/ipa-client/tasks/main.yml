@@ -15,6 +15,3 @@
     --unattended
     --password={{ ipa_server_adminpw }}
   ignore_errors: yes
-
-- name: add shitty user
-  shell: useradd -o -u 1010 -G hadoop -g hadoop kafka

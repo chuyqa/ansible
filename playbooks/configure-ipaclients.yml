@@ -1,6 +1,5 @@
 - name: IPA Clients
-  hosts: 42ipa
+  hosts: all
   remote_user: root
   roles:
     - ipa-client
-
