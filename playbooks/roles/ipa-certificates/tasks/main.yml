@@ -10,7 +10,7 @@
 
 - name: Obtain ticket on each host
   shell: >
-    echo {{ ipa_server_admin }} | kinit admin 
+    echo {{ ipa_server_adminpw }} | kinit admin 
   ignore_errors: yes
 
 - name: Retrieve host certificate
